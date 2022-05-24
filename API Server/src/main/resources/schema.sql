@@ -31,8 +31,8 @@ placed_at timestamp not null,
 PRIMARY KEY (id)
 );
 create table if not exists Taco_Order_Tacos (
-tacoOrder_id int not null,
-taco_id int not null,
-FOREIGN KEY (tacoOrder_id) REFERENCES Taco_Order(id),
-FOREIGN KEY (taco_id) REFERENCES Taco(id)
+order_id int not null,
+tacos_id int not null,
+FOREIGN KEY (order_id) REFERENCES Taco_Order(id),
+FOREIGN KEY (tacos_id) REFERENCES Taco(id)
 );

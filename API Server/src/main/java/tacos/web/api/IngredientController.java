@@ -17,12 +17,9 @@ import tacos.data.IngredientRepository;
 @CrossOrigin(origins = "*")
 public class IngredientController {
 
-	private IngredientRepository ingredientRepo;
 	@Autowired
+	private IngredientRepository ingredientRepo;
 
-	public IngredientController(IngredientRepository ingredientRepo) {
-		this.ingredientRepo = ingredientRepo;
-	}
 
 	@GetMapping
 	public Iterable<Ingredient> getAllIngredients() {

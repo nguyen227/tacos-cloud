@@ -1,11 +1,10 @@
 package tacos.web.api;
 
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,35 +12,27 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
-import tacos.Taco;
-import tacos.data.TacoRepository;
+import tacos.Order;
+import tacos.data.OrderRepository;
 
 @Slf4j
 @RestController
-@RequestMapping(path = "/design", produces = "application/json")
+@RequestMapping(path = "/orders", produces = "application/json")
 @CrossOrigin(origins = "*")
-public class DesignTacoController {
+public class OrderController {
+
 	@Autowired
-	private TacoRepository tacoRepo;
-
-	@GetMapping("/recent")
-	public Iterable<Taco> recentTacos() {
-		return tacoRepo.findAll();
+	private OrderRepository orderRepo;
+	
+	@GetMapping("/current")
+	public Iterable<Order> orderForm () {
+		return orderRepo.findAll();
 	}
-
-	@GetMapping("/{id}")
-	public Taco tacoById(@PathVariable("id") Long id) {
-		Optional<Taco> optTaco = tacoRepo.findById(id);
-		if (optTaco.isPresent()) {
-			return optTaco.get();
-		}
-		return null;
-	}
-
+	
 	@PostMapping(consumes = "application/json")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Taco postTaco(@RequestBody Taco taco) {
-		log.info(taco.toString());
-		return tacoRepo.save(taco);
-	}
+    public Order processOrder(@RequestBody Order order) {
+		log.info(order.toString());
+		return orderRepo.save(order);
+    }
 }

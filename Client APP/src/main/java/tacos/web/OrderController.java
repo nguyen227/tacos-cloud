@@ -6,6 +6,8 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestTemplate;
+
 import lombok.extern.slf4j.Slf4j;
 import tacos.Order;
 
@@ -13,6 +15,8 @@ import tacos.Order;
 @Controller
 @RequestMapping("/orders")
 public class OrderController {
+	private RestTemplate rest = new RestTemplate();
+	
 	@GetMapping("/current")
 	public String orderForm(Model model) {
 		model.addAttribute("order", new Order());
@@ -25,6 +29,7 @@ public class OrderController {
 			return "orderForm";
 		}
 		log.info("Order submitted: " + order);
+		rest.postForObject("http://localhost:8080/orders",order, Order.class);
 		return "redirect:/";
 	}
 }
